@@ -1,0 +1,141 @@
+[33mcommit dd38398d393b35df4656955878cd72eec1f363b4[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Karun <gyawalikarun6@gmail.com>
+Date:   Fri Mar 5 20:53:26 2021 +0545
+
+    final deplment
+
+[1mdiff --git a/Procfile b/Procfile[m
+[1mnew file mode 100644[m
+[1mindex 0000000..bfac54a[m
+[1m--- /dev/null[m
+[1m+++ b/Procfile[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mweb: npm run dev[m[41m [m
+\ No newline at end of file[m
+[1mdiff --git a/backend/config/db.js b/backend/config/db.js[m
+[1mindex 8b64c12..f5b1ec2 100644[m
+[1m--- a/backend/config/db.js[m
+[1m+++ b/backend/config/db.js[m
+[36m@@ -3,6 +3,14 @@[m [mconst mongoose = require("mongoose");[m
+ [m
+ const connectDB = async () => {[m
+   try {[m
+[31m-    await mongoose.connect(process.env.MONGO_URI);[m
+[31m-  } catch (error) {}[m
+[32m+[m[32m    await mongoose.connect(process.env.MONGO_URI, {[m
+[32m+[m[32m      useNewUrlParser: true,[m
+[32m+[m[32m      useUnifiedTopology: true,[m
+[32m+[m[32m    });[m
+[32m+[m[32m    console.log("succesfull");[m
+[32m+[m[32m  } catch (error) {[m
+[32m+[m[32m    console.log("Fail ");[m
+[32m+[m[32m  }[m
+ };[m
+[32m+[m
+[32m+[m[32mmodule.exports = connectDB;[m
+[1mdiff --git a/backend/controller/productController.js b/backend/controller/productController.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..7c9d11e[m
+[1m--- /dev/null[m
+[1m+++ b/backend/controller/productController.js[m
+[36m@@ -0,0 +1,26 @@[m
+[32m+[m[32mconst Product = require("../models/Product");[m
+[32m+[m
+[32m+[m[32mconst getAllProducts = async (Req, res) => {[m
+[32m+[m[32m  try {[m
+[32m+[m[32m    const products = await Product.find({});[m
+[32m+[m[32m    res.json(products);[m
+[32m+[m[32m  } catch (error) {[m
+[32m+[m[32m    console.log(error);[m
+[32m+[m[32m    res.status(500).json({ message: "server Error" });[m
+[32m+[m[32m  }[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32mconst getProductById = async (req, res) => {[m
+[32m+[m[32m  try {[m
+[32m+[m[32m    const products = await Product.findById(req.params.id);[m
+[32m+[m[32m    res.json(products);[m
+[32m+[m[32m  } catch (error) {[m
+[32m+[m[32m    console.log(error);[m
+[32m+[m[32m    res.status(500).json({ message: "server Error" });[m
+[32m+[m[32m  }[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32mmodule.exports = {[m
+[32m+[m[32m  getAllProducts,[m
+[32m+[m[32m  getProductById,[m
+[32m+[m[32m};[m
+[1mdiff --git a/backend/data/product.js b/backend/data/product.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..aac04c9[m
+[1m--- /dev/null[m
+[1m+++ b/backend/data/product.js[m
+[36m@@ -0,0 +1,77 @@[m
+[32m+[m[32mconst products = [[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "PlayStation 5",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80",[m
+[32m+[m[32m    description:[m
+[32m+[m[32m      "PlayStation 5 (PS5) is a home video game console developed by Sony Interactive Entertainment. Announced in 2019 as the successor to the PlayStation 4, the PS5 was released on November 12, 2020 in Australia, Japan, New Zealand, North America, Singapore, and South Korea, and November 19, 2020 onwards in other major markets except China and India.",[m
+[32m+[m[32m    price: 499,[m
+[32m+[m[32m    countInStock: 15,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "Iphone 12",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1463&q=80",[m
+[32m+[m[32m    description:[m
+[32m+[m[32m      "Welcome to a new era of iPhone. Beautifully bright 6.1-inch Super Retina XDR display.1 Ceramic Shield with 4x better drop performance.2 Incredible low-light photography with Night mode on all cameras. Cinema-grade Dolby Vision video recording, editing, and playback. Powerful A14 Bionic chip. And new MagSafe accessories for easy attach and faster wireless charging.3 Let the fun begin.",[m
+[32m+[m[32m    price: 1099,[m
+[32m+[m[32m    countInStock: 10,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "Cannon EOS-1D",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      "https://images.unsplash.com/photo-1519183071298-a2962feb14f4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",[m
+[32m+[m[32m    description:[m
+[32m+[m[32m      "The EOS-1D X combines speed with image quality, to create the next generation camera for professionals. Full frame 18 megapixel sensor with Dual “DIGIC 5+” processors sets the standard, and up to 12 frames per second shooting takes it beyond.",[m
+[32m+[m[32m    price: 1300,[m
+[32m+[m[32m    countInStock: 5,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "Amazon Alexa",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      "https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80",[m
+[32m+[m[32m    description:[m
+[32m+[m[32m      "It is capable of voice interaction, music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, sports, and other real-time information, such as news. Alexa can also control several smart devices using itself as a home automation system.",[m
+[32m+[m[32m    price: 50,[m
+[32m+[m[32m    countInStock: 25,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "Audio Technica Headphones",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      "https://images.unsplash.com/photo-1558756520-22cfe5d382ca?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",[m
+[32m+[m[32m    description:[m
+[32m+[m[32m      "Outfitted with 45mm large-aperture dynamic drivers and an over-ear, closed-back design, the ATH-M50x headphones deliver clarity, deep bass, and extended bandwidth (15 Hz to 28 kHz) while isolating you from outside sounds.",[m
+[32m+[m[32m    price: 233,[m
+[32m+[m[32m    countInStock: 4,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "JBL FLIP 4",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      "https://images.unsplash.com/photo-1564424224827-cd24b8915874?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80",[m
+[32m+[m[32m    description:[m
+[32m+[m[32m      "JBL Flip 4 is the next generation in the award-winning Flip series; it is a portable Bluetooth speaker that delivers surprisingly powerful stereo sound. This compact speaker is powered by a 3000mAh rechargeable Li-ion battery that offers up to 12 hours of continuous, high-quality audio playtime.",[m
+[32m+[m[32m    price: 140,[m
+[32m+[m[32m    countInStock: 10,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "COFFE MAKER",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      " https://images.unsplash.com/photo-1452415005154-c06158558480?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1866&q=80",[m
+[32m+[m[32m    description:[m
+[32m+[m[32m      "The single-serve coffeemaker technology often allows the choice of cup size and brew strength, and delivers a cup of brewed coffee rapidly, usually at the touch of a button. Today, a variety of beverages are available for brewing with single-cup machines such as tea, hot chocolate and milk-based speciality beverages.",[m
+[32m+[m[32m    price: 50,[m
+[32m+[m[32m    countInStock: 10,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    name: "MICROWAVE OVEN",[m
+[32m+[m[32m    imageUrl:[m
+[32m+[m[32m      "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=fo
